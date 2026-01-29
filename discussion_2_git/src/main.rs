@@ -1,9 +1,9 @@
 
-fn parity(x: i64) -> &'static str {
+fn parity(x: i64) -> i64 {
     if x % 2 == 0 {
-        "Even"
+        1 
     } else {
-        "Odd"
+        0
     }
 }
 fn add(a: i64, b: i64) -> i64 {
