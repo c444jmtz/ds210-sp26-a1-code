@@ -17,7 +17,8 @@ impl PlayerTrait for SimulatedPlayer {
      * The function should return false otherwise.
      */
     fn ask_if_equal(&mut self, guess: u32) -> bool {
-        todo!("you did not provide your part 3 solution yet!")
+        self.the_number == guess 
+
     }
     /**
      * This function compares the guess to the number that the player has in mind.
@@ -27,7 +28,18 @@ impl PlayerTrait for SimulatedPlayer {
      * 1 if the number > guess
      */
     fn ask_to_compare(&mut self, guess: u32) -> i32 {
-        todo!("you did not provide your part 3 solution yet!")
+        match self.the_number {
+            v if v == guess => 0,
+
+            v if  v < guess => -1,
+
+            v if  v > guess => 1,
+
+            _ => unreachable!("how?")
+
+            
+
+        }
     }
 }
 
@@ -117,7 +129,7 @@ mod bad_strategy_tests {
     fn a_different_number() {
         let min = 0;
         let max = 100;
-        let number = todo!("`the_min` and `the_max` are not enough: the `BadStrategy` satisfies them, even though it is wrong. Add your own test that demonstrate that BadStrategy does not work!");
+        let number = 50;
 
         // We create a simulated player
         let mut player = Player::new(SimulatedPlayer::new(number));
@@ -129,6 +141,7 @@ mod bad_strategy_tests {
 
 #[cfg(test)]
 mod part2_tests {
+    use crate::part1::Part1;
     use crate::part2::Part2;
     use crate::part3::SimulatedPlayer;
     use crate::player::Player;
@@ -142,16 +155,42 @@ mod part2_tests {
     // Look at part1_tests for inspiration.
     #[test]
     fn the_min() {
-        todo!("add your tests for part2");
+        let min = 0;
+        let max = 100;
+        let number = min ;
+
+                // We create a simulated player (taken from previous code)
+        let mut player = Player::new(SimulatedPlayer::new(number));
+        let answer = Part2::guess_the_number(&mut player, min, max);
+        assert_eq!(answer, number);
+        assert_eq!(player.steps(), 1);
     }
 
     #[test]
     fn the_max() {
-        todo!("add your tests for part2");
+        let min = 0;
+        let max = 100;
+        let number = max -1;
+
+                // We create a simulated player (taken from previous code)
+        let mut player = Player::new(SimulatedPlayer::new(number));
+        let answer = Part2::guess_the_number(&mut player, min, max);
+        assert_eq!(answer, number);
+        assert!(player.steps() <= max);
     }
 
     #[test]
+    #[should_panic]
     fn a_different_number() {
-        todo!("Add your tests for part2!");
+        let min = 0;
+        let max = 100;
+        let number = 50 ; //anywhere in between 
+
+                // We create a simulated player (taken from previous code)
+        let mut player = Player::new(SimulatedPlayer::new(number));
+        let answer = Part2::guess_the_number(&mut player, min, max);
+        assert_eq!(answer, number);
+        assert!(player.steps() <= max);
+        
     }
 }
