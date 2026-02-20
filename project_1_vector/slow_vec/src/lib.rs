@@ -15,13 +15,16 @@ pub struct SlowVec<T> {
 // Functions inside SlowVec.
 impl<T> SlowVec<T> {
     pub fn new() -> Self {
+        
         return SlowVec {
+            
             fixed: FixedSizeArray::allocate(0)
         };
     }
     
     // returns the length of the SlowVec.
     pub fn len(&self) -> usize {
+       
         return self.fixed.len();
     }
 
@@ -58,9 +61,26 @@ impl<T> SlowVec<T> {
         self.fixed.get(i)
     }
 
-    // Student 1: Provide your solution here.
+    // Student 1: Provide your solution here. (Christopher Martinez)
     pub fn push(&mut self, t: T) {
-        todo!("Student 1 should implement this");
+    // Create new fixed array with an extra slot to make space for value
+   
+       let mut new_fixed = FixedSizeArray::allocate(self.len() + 1);
+
+    // iterate through each value in the old array, and clone into new array
+     // .get(i).clone() because get() returns &T (sliced), and we need an owned T. (Used ai for this part)
+
+
+    for i in 0..self.len() {
+        //put expects T, push provides &T
+        new_fixed.put(self.fixed.get(i).clone(), i);
+    }
+// add new element at the end of array
+    new_fixed.put(t, self.len());
+//replace old array to the new array with new value
+    self.fixed = new_fixed;
+}
+
     }
 
     // Student 2: Provide your solution here
