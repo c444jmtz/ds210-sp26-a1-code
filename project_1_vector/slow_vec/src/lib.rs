@@ -69,7 +69,7 @@ impl<T> SlowVec<T> {
     // move all old elements into the new array
     for i in 0..old_len {
         new_fixed.put(self.fixed.move_out(i), i);
-    }
+       }
 
     // put the new element at the end
     new_fixed.put(element, old_len);
