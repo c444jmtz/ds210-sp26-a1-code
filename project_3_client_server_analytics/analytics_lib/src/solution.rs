@@ -16,7 +16,7 @@ pub fn group_by_dataset(dataset: Dataset, group_by_column: &String) -> HashMap<V
 fn get_int_value(row: &Row, col_index: usize) -> i32 {
     match row.get_value(col_index) { //.get_value from dataset.rs
         Value::Integer(value) => *value, //dereferences so we get actual integer value
-        _ => panic!("Expected integer column"),
+        _ => panic!("Expected integer column"), 
     }
 }
 
@@ -25,8 +25,8 @@ fn sum_column(dataset: &Dataset, column_name: &String) -> i32 {
     let col_index = dataset.column_index(column_name);
     let mut sum = 0;
 
-    for row in dataset.iter() {
-        sum += get_int_value(row, col_index); //simple accumulator
+    for row in dataset.iter() { //ref because we only need to read data
+        sum += get_int_value(row, col_index); //simple accumulator using helper function
     }
 
     sum
@@ -42,9 +42,9 @@ pub fn aggregate_dataset(dataset: HashMap<Value, Dataset>, aggregation: &Aggrega
     let mut result = HashMap::new();
 
     for (group_value, group_dataset) in dataset {
-        let aggregated_value = match aggregation {
+        let aggregated_value = match aggregation { 
             Aggregation::Count(_column_name) => {
-                Value::Integer(group_dataset.len() as i32)
+                Value::Integer(group_dataset.len() as i32) //# of rows 
             }
 
             Aggregation::Sum(column_name) => {
@@ -56,10 +56,10 @@ pub fn aggregate_dataset(dataset: HashMap<Value, Dataset>, aggregation: &Aggrega
             }
         };
 
-        result.insert(group_value, aggregated_value);
+        result.insert(group_value, aggregated_value); //insert vals into hashmap
     }
 
-    result
+    result //returns hashmap; group key -> aggregated result
 
 }
 
